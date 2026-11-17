@@ -28,6 +28,10 @@ python -m dns_proxy
 
 The proxy prints `DNS Proxy ready.`, accepts one domain per line, and exits on `exit`. The commands `stats`, `reload`, and `cache` are implemented as optional controls.
 
+## Web dashboard
+
+Run `py -3 web_dashboard\server.py` on Windows or `python3 web_dashboard/server.py` on macOS and Linux, then open <http://127.0.0.1:8080>. See the [dashboard guide](web_dashboard/README.md) for simulator control and configuration.
+
 ## Decision order
 
 Every domain is trimmed, validated, lowercased, and stripped of one final dot. Matching is exact or label-boundary subdomain matching. The order is:
