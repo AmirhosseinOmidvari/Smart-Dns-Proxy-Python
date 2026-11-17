@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from ipaddress import IPv4Address, ip_address
+from math import isfinite
 from pathlib import Path
 
 
@@ -53,6 +54,8 @@ class AppConfig:
         sinkhole_ip = _ipv4(values["sinkhole_ip"], "sinkhole_ip")
         proxy_ip = _ipv4(values["proxy_ip"], "proxy_ip")
         upstream_port = _integer(values["upstream_port"], "upstream_port", 1)
+        if upstream_port > 65535:
+            raise ConfigError("upstream_port must be between 1 and 65535")
         timeout = _real(values.get("upstream_timeout_sec", "2"), "upstream_timeout_sec", 0.001)
         local_ttl = _integer(values.get("local_ttl", "60"), "local_ttl", 0)
         cache_max = None
@@ -110,7 +113,7 @@ def _real(value: str, key: str, minimum: float) -> float:
         number = float(value)
     except ValueError as exc:
         raise ConfigError(f"invalid number for {key}: {value}") from exc
-    if number < minimum:
+    if not isfinite(number) or number < minimum:
         raise ConfigError(f"invalid value for {key}: {value}")
     return number
 

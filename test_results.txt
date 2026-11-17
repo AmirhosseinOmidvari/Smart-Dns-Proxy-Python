@@ -1,16 +1,171 @@
+Smart DNS Proxy | Phase 1 acceptance transcript
+Actual console output from two Python processes connected by loopback UDP.
+Unprefixed responses are from the proxy. [Upstream] marks simulator output.
+
 DNS Proxy ready.
-T1 ads.example.com -> AD_BLOCK / OK / 0.0.0.0 / 60
-T2 sub.ads.example.com -> AD_BLOCK / OK / 0.0.0.0 / 60
-T3 ADS.Example.COM. -> AD_BLOCK / OK / 0.0.0.0 / 60
-T4 notads.example.com -> UPSTREAM / OK / 198.51.100.7 / 5
-T5 service.example.org -> SANCTION / OK / 192.0.2.10 / 60
-T6 both.example.com -> AD_BLOCK / OK / 0.0.0.0 / 60
-T7 normal.example.net -> UPSTREAM / OK / 198.51.100.7 / 5
-T8 normal.example.net -> CACHE / OK / 198.51.100.7 / 1-4
-T9 normal.example.net after TTL expiry -> UPSTREAM / OK / 198.51.100.7 / 5
-T10 missing.example.net twice -> UPSTREAM / NOT_FOUND / - / -
-T11 upstream timeout -> SERVER_ERROR / - / -
-T11 recovery ads.example.com -> AD_BLOCK / OK / 0.0.0.0 / 60
-T12 empty line -> NONE / INVALID_INPUT / - / -
-T12 bad domain.com -> NONE / INVALID_INPUT / - / -
-T13 cache disabled normal.example.net twice -> UPSTREAM / OK / 198.51.100.7 / 5
+T1–T12 | default simulated UDP configuration
+
+T1
+Enter domain (or exit): ads.example.com
+Domain : ads.example.com
+Source : AD_BLOCK
+Status : OK
+IP : 0.0.0.0
+TTL : 60
+
+T2
+Enter domain (or exit): sub.ads.example.com
+Domain : sub.ads.example.com
+Source : AD_BLOCK
+Status : OK
+IP : 0.0.0.0
+TTL : 60
+
+T3
+Enter domain (or exit): ADS.Example.COM.
+Domain : ads.example.com
+Source : AD_BLOCK
+Status : OK
+IP : 0.0.0.0
+TTL : 60
+
+T4
+Enter domain (or exit): notads.example.com
+Domain : notads.example.com
+Source : UPSTREAM
+Status : OK
+IP : 198.51.100.7
+TTL : 5
+
+[Upstream] Request #1: notads.example.com -> OK 198.51.100.7 5
+
+T5
+Enter domain (or exit): service.example.org
+Domain : service.example.org
+Source : SANCTION
+Status : OK
+IP : 192.0.2.10
+TTL : 60
+
+T6
+Enter domain (or exit): both.example.com
+Domain : both.example.com
+Source : AD_BLOCK
+Status : OK
+IP : 0.0.0.0
+TTL : 60
+
+T7
+Enter domain (or exit): normal.example.net
+Domain : normal.example.net
+Source : UPSTREAM
+Status : OK
+IP : 198.51.100.7
+TTL : 5
+
+[Upstream] Request #2: normal.example.net -> OK 198.51.100.7 5
+
+T8
+Enter domain (or exit): normal.example.net
+Domain : normal.example.net
+Source : CACHE
+Status : OK
+IP : 198.51.100.7
+TTL : 4
+
+T9
+[Test action] Wait six seconds before repeating normal.example.net.
+Enter domain (or exit): normal.example.net
+Domain : normal.example.net
+Source : UPSTREAM
+Status : OK
+IP : 198.51.100.7
+TTL : 5
+
+[Upstream] Request #3: normal.example.net -> OK 198.51.100.7 5
+
+T10
+Enter domain (or exit): missing.example.net
+Domain : missing.example.net
+Source : UPSTREAM
+Status : NOT_FOUND
+IP : -
+TTL : -
+
+[Upstream] Request #4: missing.example.net -> NOT_FOUND
+
+Enter domain (or exit): missing.example.net
+Domain : missing.example.net
+Source : UPSTREAM
+Status : NOT_FOUND
+IP : -
+TTL : -
+
+[Upstream] Request #5: missing.example.net -> NOT_FOUND
+
+T11
+[Test action] Stop the simulator while leaving the proxy running.
+Enter domain (or exit): other.example.net
+Domain : other.example.net
+Source : UPSTREAM
+Status : SERVER_ERROR
+IP : -
+TTL : -
+
+[Measured timeout] 2.00 seconds
+
+Enter domain (or exit): ads.example.com
+Domain : ads.example.com
+Source : AD_BLOCK
+Status : OK
+IP : 0.0.0.0
+TTL : 60
+
+T12
+Enter domain (or exit):
+Domain : (empty)
+Source : NONE
+Status : INVALID_INPUT
+IP : -
+TTL : -
+
+Enter domain (or exit): bad domain.com
+Domain : bad domain.com
+Source : NONE
+Status : INVALID_INPUT
+IP : -
+TTL : -
+
+Enter domain (or exit): exit
+Bye.
+
+T13 | fresh run with sinkhole_ip=10.0.0.1 and cache_enabled=false
+
+DNS Proxy ready.
+Enter domain (or exit): ads.example.com
+Domain : ads.example.com
+Source : AD_BLOCK
+Status : OK
+IP : 10.0.0.1
+TTL : 60
+
+Enter domain (or exit): normal.example.net
+Domain : normal.example.net
+Source : UPSTREAM
+Status : OK
+IP : 198.51.100.7
+TTL : 5
+
+[Upstream] Request #1: normal.example.net -> OK 198.51.100.7 5
+
+Enter domain (or exit): normal.example.net
+Domain : normal.example.net
+Source : UPSTREAM
+Status : OK
+IP : 198.51.100.7
+TTL : 5
+
+[Upstream] Request #2: normal.example.net -> OK 198.51.100.7 5
+
+Enter domain (or exit): exit
+Bye.
