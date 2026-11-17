@@ -20,7 +20,7 @@ class DomainList:
             if not line or line.startswith("#"):
                 continue
             normalized = normalize_domain(line)
-            if normalized != line.casefold() or not is_valid_domain(line):
+            if not is_valid_domain(line):
                 warnings.append(f"Warning: bad line in {self.path.name}: {raw_line}")
                 continue
             entries.add(normalized)

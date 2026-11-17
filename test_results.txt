@@ -1,0 +1,16 @@
+DNS Proxy ready.
+T1 ads.example.com -> AD_BLOCK / OK / 0.0.0.0 / 60
+T2 sub.ads.example.com -> AD_BLOCK / OK / 0.0.0.0 / 60
+T3 ADS.Example.COM. -> AD_BLOCK / OK / 0.0.0.0 / 60
+T4 notads.example.com -> UPSTREAM / OK / 198.51.100.7 / 5
+T5 service.example.org -> SANCTION / OK / 192.0.2.10 / 60
+T6 both.example.com -> AD_BLOCK / OK / 0.0.0.0 / 60
+T7 normal.example.net -> UPSTREAM / OK / 198.51.100.7 / 5
+T8 normal.example.net -> CACHE / OK / 198.51.100.7 / 1-4
+T9 normal.example.net after TTL expiry -> UPSTREAM / OK / 198.51.100.7 / 5
+T10 missing.example.net twice -> UPSTREAM / NOT_FOUND / - / -
+T11 upstream timeout -> SERVER_ERROR / - / -
+T11 recovery ads.example.com -> AD_BLOCK / OK / 0.0.0.0 / 60
+T12 empty line -> NONE / INVALID_INPUT / - / -
+T12 bad domain.com -> NONE / INVALID_INPUT / - / -
+T13 cache disabled normal.example.net twice -> UPSTREAM / OK / 198.51.100.7 / 5
