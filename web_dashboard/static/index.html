@@ -4,18 +4,20 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="color-scheme" content="dark">
-  <title>DNS Proxy · Network Console</title>
+  <meta name="theme-color" content="#10121b">
+  <title>Relay · DNS Proxy</title>
+  <link rel="icon" href="/relay.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/app.css">
   <script src="/app.js" defer></script>
 </head>
 <body>
   <svg class="symbols" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <symbol id="i-mark" viewBox="0 0 24 24"><path d="M2 12h4l3-7 5 14 3-7h5"/></symbol>
-    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+    <symbol id="i-mark" viewBox="0 0 24 24"><path d="m2.5 12 4.75-3.5 4.75 3.5 4.75-3.5L21.5 12M2.5 16.5l4.75-3.5 4.75 3.5 4.75-3.5 4.75 3.5M2.5 7.5 7.25 4 12 7.5 16.75 4l4.75 3.5"/></symbol>
+    <symbol id="i-resolve" viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 0 0-2 2v4m12-6h4a2 2 0 0 1 2 2v4M3 15v4a2 2 0 0 0 2 2h4m6 0h4a2 2 0 0 0 2-2v-4"/><circle cx="12" cy="12" r="3"/></symbol>
     <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5Zm-9 9 9 5 9-5M3 16l9 5 9-5"/></symbol>
     <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s7-4 7-11V5l-7-3-7 3v6c0 7 7 11 7 11Z"/><path d="m9 12 2 2 4-4"/></symbol>
-    <symbol id="i-terminal" viewBox="0 0 24 24"><path d="m5 7 5 5-5 5m8 0h6"/><rect x="2" y="3" width="20" height="18" rx="3"/></symbol>
-    <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 6h5m4 0h7M4 12h9m4 0h3M4 18h3m4 0h9"/><circle cx="11" cy="6" r="2"/><circle cx="15" cy="12" r="2"/><circle cx="9" cy="18" r="2"/></symbol>
+    <symbol id="i-terminal" viewBox="0 0 24 24"><path d="m6 8 4 4-4 4m7 0h4"/><rect x="3" y="4" width="18" height="16" rx="3"/></symbol>
+    <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M3 6h5m4 0h9M3 12h9m4 0h5M3 18h3m4 0h11"/><circle cx="10" cy="6" r="2"/><circle cx="14" cy="12" r="2"/><circle cx="8" cy="18" r="2"/></symbol>
     <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></symbol>
     <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6"/></symbol>
     <symbol id="i-external" viewBox="0 0 24 24"><path d="M6 18 18 6M8 6h10v10"/></symbol>
@@ -23,158 +25,170 @@
     <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/></symbol>
     <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v6m0 4h.01"/></symbol>
     <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-pulse" viewBox="0 0 24 24"><path d="M2 12h4l3-7 5 14 3-7h5"/></symbol>
+    <symbol id="i-ban" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m6 6 12 12"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
   </svg>
 
   <div class="shell">
     <aside class="sidebar">
-      <a class="brand" href="/" aria-label="DNS Proxy overview"><span class="brand-mark"><svg><use href="#i-mark"/></svg></span><span>DNS Proxy<small>NETWORK CONSOLE</small></span></a>
+      <a class="brand" href="#overview" aria-label="Relay DNS Proxy overview">
+        <span class="brand-mark"><svg aria-hidden="true"><use href="#i-mark"/></svg></span><span>Relay<small>DNS PROXY</small></span>
+      </a>
       <nav class="navigation" aria-label="Dashboard">
-        <button data-view="overview" aria-current="page"><svg><use href="#i-grid"/></svg> Overview</button>
-        <button data-view="cache"><svg><use href="#i-layers"/></svg> DNS Cache</button>
-        <button data-view="policies"><svg><use href="#i-shield"/></svg> Policy Lists</button>
-        <button data-view="activity"><svg><use href="#i-terminal"/></svg> Activity Log</button>
-        <button data-view="settings"><svg><use href="#i-sliders"/></svg> Settings</button>
+        <a data-view="overview" href="#overview" aria-current="page"><svg aria-hidden="true"><use href="#i-resolve"/></svg> <span>Resolver</span></a>
+        <a data-view="cache" href="#cache"><svg aria-hidden="true"><use href="#i-layers"/></svg> <span>Cache</span></a>
+        <a data-view="policies" href="#policies"><svg aria-hidden="true"><use href="#i-shield"/></svg> <span>Policy lists</span></a>
+        <a data-view="activity" href="#activity"><svg aria-hidden="true"><use href="#i-terminal"/></svg> <span>Activity</span></a>
+        <a data-view="settings" href="#settings"><svg aria-hidden="true"><use href="#i-sliders"/></svg> <span>Settings</span></a>
       </nav>
       <div class="sidebar-bottom">
         <div class="connection">
-          <span class="connection-icon"><svg><use href="#i-globe"/></svg></span>
-          <div><strong>Local workspace</strong><small>127.0.0.1:8080</small></div>
-          <span class="status-dot" aria-label="Local"></span>
+          <div><svg aria-hidden="true"><use href="#i-globe"/></svg><strong>Upstream</strong></div>
+          <code id="upstream-address">—</code>
+          <small id="connection-detail">Connecting to the dashboard</small>
         </div>
       </div>
     </aside>
 
     <main class="main">
       <header class="topbar">
-        <div class="breadcrumb">Workspace <span>/</span> <strong id="current-view">Overview</strong></div>
+        <div class="breadcrumb">Workspace <span>/</span> <strong id="current-view">Resolver</strong></div>
         <div class="topbar-actions">
           <span class="mode-pill" id="mode-pill"><span class="status-dot"></span><span id="mode-label">Connecting</span></span>
-          <button class="icon-button" id="refresh" type="button" title="Refresh dashboard" aria-label="Refresh dashboard"><svg><use href="#i-refresh"/></svg></button>
+          <button class="icon-button" id="refresh" type="button" title="Refresh dashboard" aria-label="Refresh dashboard"><svg aria-hidden="true"><use href="#i-refresh"/></svg></button>
         </div>
       </header>
 
-      <section class="view" id="overview" aria-labelledby="overview-title">
-        <div class="hero">
-          <div class="hero-content">
-            <div class="section-label"><span></span> DNS LOOKUP</div>
-            <h1 id="overview-title">Resolve a <em>domain.</em></h1>
-            <p>Trace how your proxy handles a DNS request, from local rules to the upstream response.</p>
-            <form class="search-box" id="resolve-form">
-              <svg class="search-icon"><use href="#i-search"/></svg>
-              <label class="sr-only" for="domain">Domain to resolve</label>
-              <input id="domain" type="text" placeholder="Enter a domain name" autocomplete="off" spellcheck="false">
-              <kbd title="Shortcut to focus the domain input">/</kbd>
-              <button class="primary" id="resolve-button" type="submit">Resolve <svg><use href="#i-arrow"/></svg></button>
-            </form>
-            <div class="examples" id="examples">
-              <span>Try</span>
-              <button data-domain="normal.example.net">normal.example.net</button>
-              <button data-domain="ads.example.com">ads.example.com</button>
-              <button data-domain="service.example.org">service.example.org</button>
+      <div class="content">
+        <section class="view" id="overview" aria-labelledby="overview-title">
+          <div class="hero">
+            <div class="hero-art" aria-hidden="true">
+              <div class="hero-grid"></div>
+              <img src="/signal.webp" alt="" width="1080" height="720" fetchpriority="high">
+              <div class="art-pulse"></div>
+            </div>
+            <div class="hero-content">
+              <div class="record-tag"><svg aria-hidden="true"><use href="#i-resolve"/></svg> A record lookup</div>
+              <h1 id="overview-title">Trace a <em>domain.</em></h1>
+              <p>Look up a domain and trace the response through your DNS proxy.</p>
+              <form class="search-box" id="resolve-form" aria-label="DNS lookup">
+                <svg class="search-icon" aria-hidden="true"><use href="#i-search"/></svg>
+                <label class="sr-only" for="domain">Domain name</label>
+                <input id="domain" type="text" placeholder="Enter a domain name" autocomplete="off" autocapitalize="none" spellcheck="false" aria-keyshortcuts="/">
+                <kbd title="Focus the domain field">/</kbd>
+                <button class="primary" id="resolve-button" type="submit"><span id="resolve-label">Resolve</span> <svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+              </form>
+              <div class="examples" id="examples">
+                <span>Try</span>
+                <button type="button" data-domain="normal.example.net">normal.example.net</button>
+                <button type="button" data-domain="ads.example.com">ads.example.com</button>
+                <button type="button" data-domain="service.example.org">service.example.org</button>
+              </div>
             </div>
           </div>
-          <div class="network-art" aria-hidden="true">
-            <div class="network-core"><svg><use href="#i-mark"/></svg></div>
-            <div class="ring ring-one"></div>
-            <div class="ring ring-two"></div>
-            <div class="ring ring-three"></div>
-            <div class="axis axis-a"></div><div class="axis axis-b"></div>
-            <i class="node node-a"></i><i class="node node-b"></i><i class="node node-c"></i><i class="node node-d"></i>
-            <span class="network-label">UDP<span></span>IPv4</span>
+
+          <div class="metrics" aria-label="Session statistics">
+            <div class="metric"><span class="metric-icon lavender"><svg aria-hidden="true"><use href="#i-pulse"/></svg></span><div><div class="metric-title">Total requests</div><strong id="stat-total">—</strong><small id="stat-total-note">Current session</small></div></div>
+            <div class="metric"><span class="metric-icon mint"><svg aria-hidden="true"><use href="#i-layers"/></svg></span><div><div class="metric-title">Cache hits</div><strong id="stat-cache">—</strong><small id="stat-cache-note">Local responses</small></div></div>
+            <div class="metric"><span class="metric-icon amber"><svg aria-hidden="true"><use href="#i-shield"/></svg></span><div><div class="metric-title">Policy matches</div><strong id="stat-policies">—</strong><small id="stat-policy-note">Ad and sanction rules</small></div></div>
+            <div class="metric"><span class="metric-icon rose"><svg aria-hidden="true"><use href="#i-alert"/></svg></span><div><div class="metric-title">Errors</div><strong id="stat-errors">—</strong><small>Unsuccessful requests</small></div></div>
           </div>
-        </div>
 
-        <div class="metrics" aria-label="Session statistics">
-          <div class="metric"><div class="metric-title"><span class="metric-icon violet"><svg><use href="#i-mark"/></svg></span>Total requests</div><strong id="stat-total">—</strong><small id="stat-total-note">Current session</small></div>
-          <div class="metric"><div class="metric-title"><span class="metric-icon mint"><svg><use href="#i-layers"/></svg></span>Cache hits</div><strong id="stat-cache">—</strong><small id="stat-cache-note">Local responses</small></div>
-          <div class="metric"><div class="metric-title"><span class="metric-icon lilac"><svg><use href="#i-shield"/></svg></span>Policy matches</div><strong id="stat-policies">—</strong><small id="stat-policy-note">Ad and sanction rules</small></div>
-          <div class="metric"><div class="metric-title"><span class="metric-icon amber"><svg><use href="#i-alert"/></svg></span>Errors</div><strong id="stat-errors">—</strong><small id="stat-error-note">Unsuccessful requests</small></div>
-        </div>
+          <div class="panels">
+            <section class="panel response-panel" id="response-panel" aria-labelledby="response-title" tabindex="-1">
+              <div class="panel-head"><div><h2 id="response-title"><svg aria-hidden="true"><use href="#i-terminal"/></svg> Latest response</h2><p id="response-caption">Result of your most recent lookup.</p></div><span class="chip" id="result-status">Awaiting query</span></div>
+              <div class="response-empty" id="response-empty"><span class="empty-icon"><svg aria-hidden="true"><use href="#i-resolve"/></svg></span><p>No response yet.</p><small>Resolve a domain to see its address, TTL and latency.</small></div>
+              <div class="result-loading" id="result-loading" hidden><span class="empty-icon"><svg aria-hidden="true"><use href="#i-pulse"/></svg></span><p>Resolving domain…</p></div>
+              <div id="result-details" class="result-details" hidden>
+                <div class="result-heading"><strong id="result-domain" class="mono"></strong><span class="chip" id="result-source"></span></div>
+                <dl class="result-fields">
+                  <div><dt>IPv4 address</dt><dd><span id="result-ip"></span><button class="icon-button copy-button" id="copy-ip" title="Copy IPv4 address" aria-label="Copy IPv4 address" type="button" hidden><svg aria-hidden="true"><use href="#i-copy"/></svg></button></dd></div>
+                  <div><dt>TTL</dt><dd id="result-ttl"></dd></div>
+                  <div><dt>Latency</dt><dd id="result-ms"></dd></div>
+                </dl>
+                <p id="result-message" class="result-message"></p>
+              </div>
+              <p class="sr-only" id="lookup-announcement" role="status"></p>
+            </section>
+            <section class="panel route-panel" aria-labelledby="route-title">
+              <div class="panel-head"><div><h2 id="route-title"><svg aria-hidden="true"><use href="#i-pulse"/></svg> Decision path</h2><p>First match wins.</p></div></div>
+              <ol class="route" id="route">
+                <li data-source="AD_BLOCK"><span class="route-node"><svg aria-hidden="true"><use href="#i-ban"/></svg></span><div>Ad block<small>Sinkhole policy</small></div><span class="route-state"></span></li>
+                <li data-source="SANCTION"><span class="route-node"><svg aria-hidden="true"><use href="#i-shield"/></svg></span><div>Sanction rule<small>Proxy policy</small></div><span class="route-state"></span></li>
+                <li data-source="CACHE"><span class="route-node"><svg aria-hidden="true"><use href="#i-layers"/></svg></span><div>Local cache<small>Unexpired answer</small></div><span class="route-state"></span></li>
+                <li data-source="UPSTREAM"><span class="route-node"><svg aria-hidden="true"><use href="#i-globe"/></svg></span><div>Upstream DNS<small>Forwarded over UDP</small></div><span class="route-state"></span></li>
+              </ol>
+            </section>
+          </div>
 
-        <div class="panels">
-          <section class="panel response-panel" aria-labelledby="response-title">
-            <div class="panel-head"><div><h2 id="response-title">Latest response</h2><p>IP, TTL and the source of the result.</p></div><span class="chip" id="result-status">Awaiting query</span></div>
-            <div class="response-empty" id="response-empty"><svg><use href="#i-terminal"/></svg><p>Your first result will appear here.</p></div>
-            <div id="result-details" class="result-details" aria-live="polite" hidden>
-              <strong id="result-domain" class="mono"></strong>
-              <dl class="result-fields">
-                <div><dt>IPv4 address</dt><dd id="result-ip"></dd></div>
-                <div><dt>TTL</dt><dd id="result-ttl"></dd></div>
-                <div><dt>Elapsed</dt><dd id="result-ms"></dd></div>
-              </dl>
-              <p id="result-message" class="result-message"></p>
-            </div>
+          <section class="panel activity-preview">
+            <div class="panel-head"><div><h2><svg aria-hidden="true"><use href="#i-clock"/></svg> Recent activity</h2><p>Latest entries from the query log.</p></div><a class="secondary" href="#activity">View activity <svg aria-hidden="true"><use href="#i-external"/></svg></a></div>
+            <div class="table-scroll"><table><thead><tr><th scope="col">Domain</th><th scope="col">Source</th><th scope="col">Status</th><th scope="col">Time</th></tr></thead><tbody id="overview-activity"></tbody></table></div>
           </section>
-          <section class="panel route-panel" aria-labelledby="route-title">
-            <div class="panel-head"><div><h2 id="route-title">Decision path</h2><p>Rules are checked in this order.</p></div><svg class="route-icon"><use href="#i-mark"/></svg></div>
-            <ol class="route" id="route">
-              <li data-source="AD_BLOCK"><span></span>Ad block<small>01</small></li>
-              <li data-source="SANCTION"><span></span>Sanction rule<small>02</small></li>
-              <li data-source="CACHE"><span></span>Local cache<small>03</small></li>
-              <li data-source="UPSTREAM"><span></span>Upstream DNS<small>04</small></li>
-            </ol>
-          </section>
-        </div>
-
-        <section class="panel activity-preview">
-          <div class="panel-head"><div><h2>Recent activity</h2><p>Latest entries from the query log.</p></div><button class="secondary" data-open="activity">View activity <svg><use href="#i-external"/></svg></button></div>
-          <div class="table-scroll"><table><thead><tr><th>Domain</th><th>Source</th><th>Status</th><th>Time</th></tr></thead><tbody id="overview-activity"></tbody></table></div>
         </section>
-      </section>
 
-      <section class="view" id="cache" aria-labelledby="cache-title" hidden>
-        <div class="page-heading"><h1 id="cache-title">DNS Cache</h1><p>Inspect active entries, their remaining TTL and the configured FIFO limit.</p></div>
-        <div class="panel"><div class="panel-head"><div><h2>Active entries</h2><p id="cache-caption"></p></div><button class="secondary" id="clear-cache">Clear cache</button></div>
-          <div class="table-scroll"><table><thead><tr><th>Domain</th><th>IPv4 address</th><th>Remaining TTL</th></tr></thead><tbody id="cache-rows"></tbody></table></div>
-        </div>
-      </section>
+        <section class="view" id="cache" aria-labelledby="cache-title" hidden>
+          <div class="page-heading"><span class="metric-icon mint"><svg aria-hidden="true"><use href="#i-layers"/></svg></span><div><h1 id="cache-title">DNS cache</h1><p>Inspect cached answers, remaining TTL and the FIFO limit.</p></div></div>
+          <section class="panel padded-panel"><div class="panel-head"><div><h2>Active entries</h2><p id="cache-caption"></p></div><button class="secondary" id="clear-cache" type="button" disabled>Clear cache</button></div>
+            <div class="table-scroll"><table><thead><tr><th scope="col">Domain</th><th scope="col">IPv4 address</th><th scope="col">Remaining TTL</th></tr></thead><tbody id="cache-rows"></tbody></table></div>
+          </section>
+        </section>
 
-      <section class="view" id="policies" aria-labelledby="policies-title" hidden>
-        <div class="page-heading"><h1 id="policies-title">Policy Lists</h1><p>Enter one domain per line. Rules match the domain and subdomains, and the ad list takes priority.</p></div>
-        <form id="policy-form" class="policy-form">
-          <div class="policy-columns">
-            <div class="panel"><div class="panel-head"><div><label for="ads">Ad block list</label><p>Returns the configured sinkhole address.</p></div><span class="metric-icon lilac"><svg><use href="#i-shield"/></svg></span></div><textarea id="ads" rows="9" spellcheck="false"></textarea></div>
-            <div class="panel"><div class="panel-head"><div><label for="sanctions">Sanction list</label><p>Returns the configured proxy address.</p></div><span class="metric-icon violet"><svg><use href="#i-globe"/></svg></span></div><textarea id="sanctions" rows="9" spellcheck="false"></textarea></div>
-          </div>
-          <div class="form-actions"><button type="submit" class="primary">Save lists <svg><use href="#i-arrow"/></svg></button><button type="button" class="secondary" id="reload-policies"><svg><use href="#i-refresh"/></svg> Reload from disk</button></div>
-        </form>
-      </section>
-
-      <section class="view" id="activity" aria-labelledby="activity-title" hidden>
-        <div class="page-heading"><h1 id="activity-title">Activity Log</h1><p>The 60 most recent results from <code>log.txt</code>, newest first.</p></div>
-        <div class="panel"><div class="panel-head"><div><h2>Query history</h2><p>Includes CLI and dashboard requests written to the same log.</p></div></div>
-          <div class="table-scroll"><table><thead><tr><th>Time</th><th>Domain</th><th>Source</th><th>Status</th><th>IP</th><th>TTL</th></tr></thead><tbody id="activity-rows"></tbody></table></div>
-        </div>
-      </section>
-
-      <section class="view" id="settings" aria-labelledby="settings-title" hidden>
-        <div class="page-heading"><h1 id="settings-title">Settings</h1><p>Configure upstream DNS, policy responses and cache behavior.</p></div>
-        <form id="settings-form">
-          <div class="panel settings-panel">
-            <div class="panel-head"><div><h2>Upstream</h2><p>Use a local UDP simulator or query a DNS server directly.</p></div></div>
-            <div class="settings-grid">
-              <label>Resolver mode<select name="real_dns_enabled"><option value="false">Simulated UDP</option><option value="true">Real DNS</option></select></label>
-              <label>Upstream IPv4<input name="upstream_ip" required spellcheck="false"></label>
-              <label>UDP port<input name="upstream_port" type="number" min="1" max="65535" required></label>
-              <label>Timeout (seconds)<input name="upstream_timeout_sec" type="number" min=".001" step="any" required></label>
+        <section class="view" id="policies" aria-labelledby="policies-title" hidden>
+          <div class="page-heading"><span class="metric-icon amber"><svg aria-hidden="true"><use href="#i-shield"/></svg></span><div><h1 id="policies-title">Policy lists</h1><p>Enter one domain per line. Rules also match subdomains. Ad blocking takes priority.</p></div></div>
+          <form id="policy-form" class="policy-form">
+            <div class="policy-columns">
+              <div class="panel padded-panel"><div class="panel-head"><div><label for="ads">Ad block list</label><p>Returns the configured sinkhole address.</p></div><span class="metric-icon amber"><svg aria-hidden="true"><use href="#i-ban"/></svg></span></div><textarea id="ads" rows="9" autocapitalize="none" spellcheck="false" disabled></textarea></div>
+              <div class="panel padded-panel"><div class="panel-head"><div><label for="sanctions">Sanction list</label><p>Returns the configured proxy address.</p></div><span class="metric-icon lavender"><svg aria-hidden="true"><use href="#i-shield"/></svg></span></div><textarea id="sanctions" rows="9" autocapitalize="none" spellcheck="false" disabled></textarea></div>
             </div>
-            <button type="button" class="secondary" id="use-default-upstream">Use default address and port</button>
-          </div>
-          <div class="panel settings-panel">
-            <div class="panel-head"><div><h2>Policy responses and cache</h2><p>Changes apply to new queries and reset current cache entries.</p></div></div>
-            <div class="settings-grid">
-              <label>Sinkhole IPv4<input name="sinkhole_ip" required spellcheck="false"></label>
-              <label>Proxy IPv4<input name="proxy_ip" required spellcheck="false"></label>
-              <label>Local TTL (seconds)<input name="local_ttl" type="number" min="0" required></label>
-              <label>Maximum entries (optional)<input name="cache_max_entries" type="number" min="1" placeholder="Unlimited"></label>
-              <label class="checkbox"><input name="cache_enabled" type="checkbox"> Enable DNS cache</label>
-            </div>
-          </div>
-          <div class="form-actions"><button type="submit" class="primary">Save settings <svg><use href="#i-arrow"/></svg></button></div>
-        </form>
-        <div class="panel simulator-panel"><div class="panel-head"><div><h2>Local simulator</h2><p id="simulator-caption">Checking state…</p></div><button class="secondary" id="simulator-toggle" disabled>Start simulator</button></div></div>
-      </section>
-      <div class="notice" id="notice" role="status" aria-live="polite" hidden></div>
+            <div class="form-actions"><button type="submit" class="primary" id="save-policies" disabled>Save lists <svg aria-hidden="true"><use href="#i-check"/></svg></button><button type="button" class="secondary" id="reload-policies"><svg aria-hidden="true"><use href="#i-refresh"/></svg> Reload from disk</button></div>
+          </form>
+        </section>
+
+        <section class="view" id="activity" aria-labelledby="activity-title" hidden>
+          <div class="page-heading"><span class="metric-icon lavender"><svg aria-hidden="true"><use href="#i-terminal"/></svg></span><div><h1 id="activity-title">Activity log</h1><p>Browse the last 60 results written to the shared CLI and dashboard log.</p></div></div>
+          <section class="panel padded-panel">
+            <div class="panel-head activity-head"><div><h2>Query history</h2><p id="activity-count">Loading history…</p></div><label class="filter-input"><svg aria-hidden="true"><use href="#i-search"/></svg><span class="sr-only">Filter activity</span><input type="search" id="activity-filter" placeholder="Filter domain, status or source"></label></div>
+            <div class="table-scroll"><table><thead><tr><th scope="col">Time</th><th scope="col">Domain</th><th scope="col">Source</th><th scope="col">Status</th><th scope="col">IP</th><th scope="col">TTL</th></tr></thead><tbody id="activity-rows"></tbody></table></div>
+          </section>
+        </section>
+
+        <section class="view" id="settings" aria-labelledby="settings-title" hidden>
+          <div class="page-heading"><span class="metric-icon lavender"><svg aria-hidden="true"><use href="#i-sliders"/></svg></span><div><h1 id="settings-title">Settings</h1><p>Configure the upstream endpoint, policy responses and cache behavior.</p></div></div>
+          <form id="settings-form">
+            <fieldset class="settings-fields" id="settings-fields" disabled>
+              <section class="panel padded-panel settings-panel">
+                <div class="panel-head"><div><h2><svg aria-hidden="true"><use href="#i-globe"/></svg> Upstream</h2><p>Use the local UDP simulator or query a DNS server directly.</p></div></div>
+                <div class="settings-grid">
+                  <label>Resolver mode<select name="real_dns_enabled"><option value="false">Simulated UDP</option><option value="true">Real DNS</option></select></label>
+                  <label>Upstream IPv4<input name="upstream_ip" required spellcheck="false"></label>
+                  <label>UDP port<input name="upstream_port" type="number" min="1" max="65535" required></label>
+                  <label>Timeout (seconds)<input name="upstream_timeout_sec" type="number" min=".001" step="any" required></label>
+                </div>
+                <button type="button" class="secondary" id="use-default-upstream">Use default address and port</button>
+              </section>
+              <section class="panel padded-panel settings-panel">
+                <div class="panel-head"><div><h2><svg aria-hidden="true"><use href="#i-layers"/></svg> Policies and cache</h2><p>Saving settings clears this session’s cache.</p></div></div>
+                <div class="settings-grid">
+                  <label>Sinkhole IPv4<input name="sinkhole_ip" required spellcheck="false"></label>
+                  <label>Proxy IPv4<input name="proxy_ip" required spellcheck="false"></label>
+                  <label>Local TTL (seconds)<input name="local_ttl" type="number" min="0" required></label>
+                  <label>Maximum entries (optional)<input name="cache_max_entries" type="number" min="1" placeholder="Unlimited"></label>
+                  <label class="checkbox"><input name="cache_enabled" type="checkbox"> Enable DNS cache</label>
+                </div>
+              </section>
+              <div class="form-actions"><button type="submit" class="primary">Save settings <svg aria-hidden="true"><use href="#i-check"/></svg></button></div>
+            </fieldset>
+          </form>
+          <section class="panel padded-panel simulator-panel"><div class="panel-head"><div><h2><svg aria-hidden="true"><use href="#i-terminal"/></svg> Local simulator</h2><p id="simulator-caption">Checking state…</p></div><button class="secondary" id="simulator-toggle" disabled type="button">Start simulator</button></div></section>
+        </section>
+        <footer class="app-footer"><span>Relay · Local DNS Console</span><span>IPv4 over UDP</span></footer>
+      </div>
+      <div class="notice" id="notice" hidden>
+        <span class="notice-icon"><svg aria-hidden="true"><use id="notice-icon" href="#i-check"/></svg></span><span id="notice-message" role="status"></span><button class="icon-button notice-dismiss" id="dismiss-notice" type="button" aria-label="Dismiss notification">×</button>
+      </div>
     </main>
   </div>
 </body>

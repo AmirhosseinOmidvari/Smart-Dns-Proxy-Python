@@ -33,6 +33,8 @@ STATIC_FILES = {
     "/": ("index.html", "text/html; charset=utf-8"),
     "/app.css": ("app.css", "text/css; charset=utf-8"),
     "/app.js": ("app.js", "text/javascript; charset=utf-8"),
+    "/relay.svg": ("relay.svg", "image/svg+xml"),
+    "/signal.webp": ("signal.webp", "image/webp"),
 }
 
 
