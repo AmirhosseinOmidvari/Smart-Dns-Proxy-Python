@@ -18,3 +18,8 @@ With the default `config.txt`, the dashboard starts its own UDP simulator at `12
 - **Real DNS** is selected in Settings. Choose **Use default address and port** to fill `1.1.1.1:53`, save, then look up a real domain such as `example.com`. This mode requires network access to the configured UDP DNS server.
 
 The dashboard binds to the local loopback address. Its web runtime keeps an independent cache and counters from any separately running console instance.
+
+
+
+set "PYTHONPATH=%CD%\src"
+python3 web_dashboard/server.py
